@@ -1,0 +1,168 @@
+{
+    "_version": "1.40.0",
+    "sap.app": {
+        "id": "jokeapi",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap-ux/fiori-elements-writer:lrop",
+            "version": "0.3.6",
+            "toolsId": "cec14d05-603e-4c0d-81f9-4b8e44b5e3e9"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v4/catalog/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "annotation"
+                    ],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "4.0"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {},
+                "sap.f": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "jokeapi.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "JokeList",
+                    "target": [
+                        "JokeList"
+                    ]
+                },
+                {
+                    "pattern": "Joke({key}):?query:",
+                    "name": "JokeObjectPage",
+                    "target": [
+                        "JokeList",
+                        "JokeObjectPage"
+                    ]
+                }
+            ],
+            "targets": {
+                "JokeList": {
+                    "type": "Component",
+                    "id": "JokeList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Joke",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "Joke": {
+                                    "detail": {
+                                        "route": "JokeObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "controlAggregation": "beginColumnPages",
+                    "contextPattern": ""
+                },
+                "JokeObjectPage": {
+                    "type": "Component",
+                    "id": "JokeObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Joke",
+                            "navigation": {}
+                        }
+                    },
+                    "controlAggregation": "midColumnPages",
+                    "contextPattern": "/Joke({key})"
+                }
+            },
+            "config": {
+                "flexibleColumnLayout": {
+                    "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                    "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+                },
+                "routerClass": "sap.f.routing.Router"
+            }
+        },
+        "rootView": {
+            "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+            "type": "XML",
+            "async": true,
+            "id": "appRootView"
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}
